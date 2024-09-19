@@ -52,6 +52,18 @@ function playGame() {
         }
         console.log(`Current score: Player = ${humanScore}, Computer = ${computerScore}`);
     }
+
+    if(humanScore > computerScore) {
+        console.log("Congratulations, you win!");
+        game_winner = "player";
+    } else if(computerScore > humanScore) {
+        console.log("Unfortunately, you have lost. Better luck next time!");
+        game_winner = "computer";
+    } else {
+        console.log("It's a tie!");
+        game_winner = "tie";
+    }
+    return game_winner;
 }
 
 playGame();
