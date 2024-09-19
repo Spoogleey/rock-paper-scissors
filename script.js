@@ -18,27 +18,40 @@ function getHumanChoice() {
     return player;
 }
 
+// Function for playing one round and logging the winner
 function playRound(humanChoice, computerChoice) {
     let choice = humanChoice.toLowerCase();
+    let winner = "";
 
     if(choice == computerChoice) {
-        let tie = console.log("It's a tie!");
-        return tie;
+        console.log("It's a tie!");
+        winner = "tie";
     } else if((choice == "rock" && computerChoice == "scissors") || (choice == "paper" && computerChoice == "rock") || (choice == "scissors" && computerChoice == "paper")) {
-        let player = console.log(`You win! ${choice} beats ${computerChoice}`);
-        return player;
+        console.log(`You win! ${choice} beats ${computerChoice}`);
+        winner = "player";
     } else {
-        let computer = console.log(`You lose! ${computerChoice} beats ${choice}`);
-        return computer;
+        console.log(`You lose! ${computerChoice} beats ${choice}`);
+        winner = "computer";
     }
+    return winner;
 }
 
+// Function for playing a whole game
 function playGame() {
     let humanScore = 0;
     let computerScore = 0;
-    let round = 0;
+    let game_winner = "";
 
-    while(round < 5) {
-        playRound(getHumanChoice(), getComputerChoice());
+    for(let round = 0; round < 5; round++) {
+        let round_win = playRound(getHumanChoice(), getComputerChoice());
+
+        if(round_win == "player") {
+            ++humanScore
+        } else if(round_win == "computer") {
+            ++computerScore
+        }
+        console.log(`Current score: Player = ${humanScore}, Computer = ${computerScore}`);
     }
 }
+
+playGame();
