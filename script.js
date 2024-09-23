@@ -1,6 +1,7 @@
 const result = document.querySelector("#result");
 const score = document.querySelector("#score");
-const buttons = document.querySelectorAll("button");
+let userScore = 0;
+let computerScore = 0;
 
 // Function to get a random choice for the computer
 function getComputerChoice() {
@@ -13,57 +14,36 @@ function getComputerChoice() {
     return choice;
 }
 
+document.querySelector("#rock").onclick = () => playRound("rock");
+document.querySelector("#paper").onclick = () => playRound("paper");
+document.querySelector("#scissors").onclick = () => playRound("scissors");
+
 // Function for playing one round and logging the winner
-function playRound(humanChoice, computerChoice) {
-    let choice = humanChoice.toLowerCase();
+function playRound(humanChoice) {
+    const choice = humanChoice.toLowerCase();
+    const computer_choice = getComputerChoice();
     let winner = "";
 
-    if(choice == computerChoice) {
-        result.textContent = "It's a tie!";
-        winner = "tie";
-    } else if((choice == "rock" && computerChoice == "scissors") || (choice == "paper" && computerChoice == "rock") || (choice == "scissors" && computerChoice == "paper")) {
-        result.textContent = `You win! ${choice} beats ${computerChoice}`;
-        winner = "player";
+    if(choice == computer_choice) {
+        winner = "It's a tie!";
+    } else if((choice == "rock" && computer_choice == "scissors") || (choice == "paper" && computer_choice == "rock") || (choice == "scissors" && computer_choice == "paper")) {
+        winner = `You win! ${choice} beats ${computer_choice}`;
+        userScore++
     } else {
-        result.textContent = `You lose! ${computerChoice} beats ${choice}`;
-        winner = "computer";
+        winner = `You lose! ${computer_choice} beats ${choice}`;
+        computerScore++
     }
-    return winner;
+
+    result.textContent = winner;
+    score.textContent = `Your score: ${userScore}, Computer score: ${computerScore}`;
+
+    if(userScore == 5) {
+        alert("Congratulations, you have won!");
+        userScore = 0;
+        computerScore = 0;
+    } else if(computerScore == 5) {
+        alert("Unfortunately, you have been defeated!");
+        userScore = 0;
+        computerScore = 0;
+    }
 }
-
-// Function for playing a whole game
-function playGame() {
-    let humanScore = 0;
-    let computerScore = 0;
-    let game_winner = "";
-
-    for(let round = 0; round < 5; round++) {
-        let round_win = buttons.forEach(button => {
-            button.addEventListener("click", () => {
-                const selection = button.getAttribute("id");
-                playRound(selection, getComputerChoice());
-            });
-        });
-
-        if(round_win == "player") {
-            ++humanScore
-        } else if(round_win == "computer") {
-            ++computerScore
-        }
-        score.textContent = (`Current score: Player = ${humanScore}, Computer = ${computerScore}`);
-    }
-
-    if(humanScore > computerScore) {
-        console.log("Congratulations, you win!");
-        game_winner = "player";
-    } else if(computerScore > humanScore) {
-        console.log("Unfortunately, you have lost. Better luck next time!");
-        game_winner = "computer";
-    } else {
-        console.log("It's a tie!");
-        game_winner = "tie";
-    }
-    return game_winner;
-}
-
-playGame();
