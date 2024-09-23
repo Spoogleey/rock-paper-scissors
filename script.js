@@ -41,9 +41,13 @@ function playRound(humanChoice) {
         alert("Congratulations, you have won!");
         userScore = 0;
         computerScore = 0;
+        score.textContent = "";
+        result.textContent = "Waiting to play..."
     } else if(computerScore == 5) {
         alert("Unfortunately, you have been defeated!");
         userScore = 0;
         computerScore = 0;
+        score.textContent = "";
+        result.textContent = "Waiting to play..."
     }
 }
